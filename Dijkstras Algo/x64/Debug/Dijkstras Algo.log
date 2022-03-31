@@ -1,0 +1,18 @@
+﻿  main.cpp
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\xstddef(106,22): error C2676: binary '>': 'const _Ty' does not define this operator or a conversion to a type acceptable to the predefined operator
+          with
+          [
+              _Ty=Nodes
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\xstddef(105): message : while compiling class template member function 'bool std::greater<Nodes>::operator ()(const _Ty &,const _Ty &) const'
+          with
+          [
+              _Ty=Nodes
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\xutility(1414): message : see reference to function template instantiation 'bool std::greater<Nodes>::operator ()(const _Ty &,const _Ty &) const' being compiled
+          with
+          [
+              _Ty=Nodes
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\queue(340): message : see reference to class template instantiation 'std::greater<Nodes>' being compiled
+E:\GitHub\C++ Projects\Dijkstras Algo\Dijkstras Algo\main.cpp(49): message : see reference to class template instantiation 'std::priority_queue<Nodes,std::vector<Nodes,std::allocator<Nodes>>,std::greater<Nodes>>' being compiled
