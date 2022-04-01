@@ -15,4 +15,4 @@ C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.3110
               _Ty=Nodes
           ]
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\queue(340): message : see reference to class template instantiation 'std::greater<Nodes>' being compiled
-E:\GitHub\C++ Projects\Dijkstras Algo\Dijkstras Algo\main.cpp(49): message : see reference to class template instantiation 'std::priority_queue<Nodes,std::vector<Nodes,std::allocator<Nodes>>,std::greater<Nodes>>' being compiled
+E:\GitHub\dijkstras-on-matrix\Dijkstras Algo\main.cpp(53): message : see reference to class template instantiation 'std::priority_queue<Nodes,std::vector<Nodes,std::allocator<Nodes>>,std::greater<Nodes>>' being compiled

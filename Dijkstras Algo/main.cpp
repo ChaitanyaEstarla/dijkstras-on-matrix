@@ -26,6 +26,10 @@ struct Nodes
 	int distanceFromStart;
 	intPair coordinate;
 	intPair parentNode;
+
+	Nodes() : distanceFromStart(0), coordinate({0,0}), parentNode({ 0,0 })
+	{	
+	}
 };
 
 int main()
