@@ -8,15 +8,12 @@
 
 using namespace std;
 
-//typeDefs
-typedef pair<int, int> intPair;
-
-//structure
+//structure to hold node data 
 struct NodeData
 {
 	int distanceFromStart;
-	intPair coordinate;
-	intPair parentNode;
+	pair<int, int> coordinate;
+	pair<int, int> parentNode;
 
 	NodeData() : distanceFromStart(0), coordinate({ 0,0 }), parentNode({ 0,0 })
 	{
@@ -29,14 +26,10 @@ struct comp {
 	}
 };
 
-int FindDistanceBetween(intPair start, intPair end);
-NodeData GetNode(intPair point, const vector<NodeData>& nodeData);
-NodeData UpdateDistanceAndParent(intPair neighbour, intPair current, const vector<NodeData>& nodeData);
-int ConvertToIndex(intPair coordinates, pair<int, int> mapDimansions);
-bool CheckBounds(intPair point, pair<int, int> mapDimansions);
-bool CheckIfPointIsUnexplored(intPair point, const vector<intPair>& exploredPoints);
-void PopulateNeighbours(intPair currentPoint, set<intPair>& Neighbours, intPair mapDimensions, const vector<bool>* Map, vector<intPair> expleoredPoints);
-bool FindPath(std::pair<int, int> Start, std::pair<int, int> Target, const std::vector<bool>& Map, std::pair<int, int> MapDimensions, std::vector<int>& OutPath);
+int ConvertToVectorIndex(pair<int, int> point, pair<int, int> mapDomensions)
+{
+	return (mapDomensions.second * point.first) + point.second;
+}
 
 /// <summary>
 /// distance between two points on the grid using manhattan distance
@@ -45,7 +38,7 @@ bool FindPath(std::pair<int, int> Start, std::pair<int, int> Target, const std::
 /// <param name="start"></param>
 /// <param name="end"></param>
 /// <returns></returns>
-int FindDistanceBetween(intPair start, intPair end)
+int FindDistanceBetween(pair<int, int> start, pair<int, int> end)
 {
 	start.first = abs(start.first - end.first);
 	start.second = abs(start.second - end.second);
@@ -58,7 +51,7 @@ int FindDistanceBetween(intPair start, intPair end)
 /// </summary>
 /// <param name="point"></param>
 /// <returns></returns>
-NodeData GetNode(intPair point, const vector<NodeData>& nodeData) 
+NodeData GetNode(pair<int, int> point, const vector<NodeData>& nodeData)
 {
 	for (const NodeData& node : nodeData)
 	{
@@ -75,7 +68,7 @@ NodeData GetNode(intPair point, const vector<NodeData>& nodeData)
 /// </summary>
 /// <param name=""></param>
 /// <param name=""></param>
-NodeData UpdateDistanceAndParent(intPair neighbour, intPair current, const vector<NodeData>& nodeData)
+NodeData UpdateDistanceAndParent(pair<int, int> neighbour, pair<int, int> current, const vector<NodeData>& nodeData)
 {
 	NodeData neighbourNode = GetNode(neighbour, nodeData);
 	NodeData currentNode = GetNode(current, nodeData);
@@ -98,7 +91,7 @@ NodeData UpdateDistanceAndParent(intPair neighbour, intPair current, const vecto
 /// </summary>
 /// <param name="coordinates"></param>
 /// <returns></returns>
-int ConvertToIndex(intPair coordinates, pair<int,int> mapDimansions)
+int ConvertToCartesianIndex(pair<int, int> coordinates, pair<int,int> mapDimansions)
 {
 	return (mapDimansions.first * coordinates.second) + coordinates.first;
 }
@@ -108,7 +101,7 @@ int ConvertToIndex(intPair coordinates, pair<int,int> mapDimansions)
 /// </summary>
 /// <param name="point"></param>
 /// <returns></returns>
-bool CheckBounds(intPair point, pair<int, int> mapDimansions)
+bool CheckBounds(pair<int, int> point, pair<int, int> mapDimansions)
 {
 	if (point.first >= 0 && point.second >= 0)
 	{
@@ -123,9 +116,9 @@ bool CheckBounds(intPair point, pair<int, int> mapDimansions)
 /// <summary>
 ///	if a point on the grid is explored return false
 /// </summary>
-bool CheckIfPointIsUnexplored(intPair point, const vector<intPair>& exploredPoints)
+bool CheckIfPointIsUnexplored(pair<int, int> point, const vector<pair<int, int>>& exploredPoints)
 {
-	for (intPair coordinate : exploredPoints)
+	for (pair<int, int> coordinate : exploredPoints)
 	{
 		if (point == coordinate)
 			return false;
@@ -136,38 +129,38 @@ bool CheckIfPointIsUnexplored(intPair point, const vector<intPair>& exploredPoin
 /// <summary>
 ///	find neighbours for a point on grid
 /// </summary>
-void PopulateNeighbours(intPair currentPoint, set<intPair>& Neighbours, intPair mapDimensions, const vector<bool> Map, vector<intPair> expleoredPoints)
+void PopulateNeighbours(pair<int, int> currentPoint, set<pair<int, int>>& Neighbours, pair<int, int> mapDimensions, const vector<bool> Map, vector<pair<int, int>> expleoredPoints)
 {
 	Neighbours.clear();
 
-	intPair temp;
+	pair<int, int> temp;
 	bool isTraversible;
 
 	temp = make_pair(currentPoint.first + 1, currentPoint.second);
 	if (CheckBounds(temp, mapDimensions) && CheckIfPointIsUnexplored(temp, expleoredPoints))
 	{
-		isTraversible = Map.at(ConvertToIndex(temp, mapDimensions));
+		isTraversible = Map.at(ConvertToCartesianIndex(temp, mapDimensions));
 		if (isTraversible) Neighbours.insert(temp);
 	}
 
 	temp = make_pair(currentPoint.first - 1, currentPoint.second);
 	if (CheckBounds(temp, mapDimensions) && CheckIfPointIsUnexplored(temp, expleoredPoints))
 	{
-		isTraversible = Map.at(ConvertToIndex(temp, mapDimensions));
+		isTraversible = Map.at(ConvertToCartesianIndex(temp, mapDimensions));
 		if (isTraversible) Neighbours.insert(temp);
 	}
 
 	temp = make_pair(currentPoint.first, currentPoint.second + 1);
 	if (CheckBounds(temp, mapDimensions) && CheckIfPointIsUnexplored(temp, expleoredPoints))
 	{
-		isTraversible = Map.at(ConvertToIndex(temp, mapDimensions));
+		isTraversible = Map.at(ConvertToCartesianIndex(temp, mapDimensions));
 		if (isTraversible) Neighbours.insert(temp);
 	}
 
 	temp = make_pair(currentPoint.first, currentPoint.second - 1);
 	if (CheckBounds(temp, mapDimensions) && CheckIfPointIsUnexplored(temp, expleoredPoints))
 	{
-		isTraversible = Map.at(ConvertToIndex(temp, mapDimensions));
+		isTraversible = Map.at(ConvertToCartesianIndex(temp, mapDimensions));
 		if (isTraversible) Neighbours.insert(temp);
 	}
 }
@@ -183,15 +176,19 @@ void PopulateNeighbours(intPair currentPoint, set<intPair>& Neighbours, intPair 
 /// <returns></returns>
 bool FindPath(std::pair<int, int> Start, std::pair<int, int> Target, const std::vector<bool>& Map, std::pair<int, int> MapDimensions, std::vector<int>& OutPath)
 {
+	if (!CheckBounds(Start, MapDimensions) || !CheckBounds(Target, MapDimensions))
+	{
+		return false;
+	}
+
 	priority_queue<NodeData, vector<NodeData>, comp> PQ;
 	NodeData point;
-	set<intPair> Neighbours;
-	vector<intPair> exploredPoints;
+	set<pair<int, int>> Neighbours;
+	vector<pair<int, int>> exploredPoints;
 	vector<NodeData> vec_NodeData;
 
 	point.distanceFromStart = FindDistanceBetween(make_pair(0, 0), MapDimensions) * 10;
 
-	//Fill data in priority queue
 	//distance = max
 	//coordinates in given plane
 	//parent coordinate = 0,0
@@ -212,26 +209,23 @@ bool FindPath(std::pair<int, int> Start, std::pair<int, int> Target, const std::
 		}
 	}
 
-	for (const NodeData& node : vec_NodeData)
-	{
-		if (node.distanceFromStart == 0)
-		{
-			PQ.push(node);
-		}
-	}
+	int indexOfStart = ConvertToVectorIndex(Start, MapDimensions);
+	PQ.push(vec_NodeData[indexOfStart]);
 
 	while (!PQ.empty())
 	{
+		//since it's priority queue the least distant node will be at it's top
 		pair<int, int> currentNode = PQ.top().coordinate;
 		exploredPoints.push_back(currentNode);
 		PQ.pop();
 
 		if (currentNode == Target)
 		{
-			intPair pathTrace = Target;
+			//trace back the shortest path
+			pair<int, int> pathTrace = Target;
 			while (pathTrace != Start)
 			{
-				OutPath.push_back(ConvertToIndex(pathTrace, MapDimensions));
+				OutPath.push_back(ConvertToCartesianIndex(pathTrace, MapDimensions));
 				pathTrace = GetNode(pathTrace, vec_NodeData).parentNode;
 			}
 			reverse(OutPath.begin(), OutPath.end());
@@ -240,24 +234,18 @@ bool FindPath(std::pair<int, int> Start, std::pair<int, int> Target, const std::
 
 		PopulateNeighbours(currentNode, Neighbours, MapDimensions, Map, exploredPoints);
 
+		//update each neighbour distance and parent if necessary
 		for (pair<int, int> neighbour : Neighbours)
 		{
-			int newDistance = FindDistanceBetween(neighbour, currentNode);
 			NodeData tempNode = UpdateDistanceAndParent(neighbour, currentNode, vec_NodeData);
-			for(int i=0; i<vec_NodeData.size(); i++)
+			
+			int i = ConvertToVectorIndex(tempNode.coordinate, MapDimensions);
+
+			if (vec_NodeData[i].distanceFromStart > tempNode.distanceFromStart)
 			{
-				if (vec_NodeData[i].coordinate == tempNode.coordinate)
-				{
-					vec_NodeData[i].distanceFromStart = tempNode.distanceFromStart;
-					vec_NodeData[i].parentNode = tempNode.parentNode;
-				}
-			}
-			for (const NodeData& node : vec_NodeData)
-			{
-				if (node.coordinate == neighbour)
-				{
-					PQ.push(node);
-				}
+				vec_NodeData[i].distanceFromStart = tempNode.distanceFromStart;
+				vec_NodeData[i].parentNode = tempNode.parentNode;
+				PQ.push(vec_NodeData[i]);
 			}
 		}
 	}
@@ -268,11 +256,11 @@ bool FindPath(std::pair<int, int> Start, std::pair<int, int> Target, const std::
 int main()
 {
 	//Globals Variables
-	pair<int, int> MapDimensions(5,5);
-	pair<int, int> Target(2,0);
-	pair<int, int> Start(0,0);
+	pair<int, int> MapDimensions(4,3);
+	pair<int, int> Target(1,2);
+	pair<int, int> Start(3,2);
 	vector<int> Path;
-	vector<bool> Map = {1,0,1,1,1 ,1,0,0,0,1 ,1,0,0,0,1 ,1,0,0,0,1, 1,1,1,1,1};
+	vector<bool> Map = { 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1 };
 
 	FindPath(Start, Target, Map, MapDimensions, Path);
 

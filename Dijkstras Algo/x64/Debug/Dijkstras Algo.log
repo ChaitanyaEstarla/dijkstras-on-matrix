@@ -1,2 +1,25 @@
 ﻿  main.cpp
-  Dijkstras Algo.vcxproj -> E:\GitHub\dijkstras-on-matrix\x64\Debug\Dijkstras Algo.exe
+F:\Chaitanya\Github\dijkstras-on-matrix\Dijkstras Algo\main.cpp(213,36): error C2664: 'void std::priority_queue<int,std::vector<int,std::allocator<int>>,comp>::push(const int &)': cannot convert argument 1 from '_Ty' to 'const int &'
+          with
+          [
+              _Ty=NodeData
+          ]
+F:\Chaitanya\Github\dijkstras-on-matrix\Dijkstras Algo\main.cpp(213,36): message : Reason: cannot convert from '_Ty' to 'const int'
+          with
+          [
+              _Ty=NodeData
+          ]
+F:\Chaitanya\Github\dijkstras-on-matrix\Dijkstras Algo\main.cpp(213,35): message : No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\queue(311,10): message : see declaration of 'std::priority_queue<int,std::vector<int,std::allocator<int>>,comp>::push'
+F:\Chaitanya\Github\dijkstras-on-matrix\Dijkstras Algo\main.cpp(245,28): error C2664: 'void std::priority_queue<int,std::vector<int,std::allocator<int>>,comp>::push(const int &)': cannot convert argument 1 from '_Ty' to 'const int &'
+          with
+          [
+              _Ty=NodeData
+          ]
+F:\Chaitanya\Github\dijkstras-on-matrix\Dijkstras Algo\main.cpp(245,28): message : Reason: cannot convert from '_Ty' to 'const int'
+          with
+          [
+              _Ty=NodeData
+          ]
+F:\Chaitanya\Github\dijkstras-on-matrix\Dijkstras Algo\main.cpp(245,27): message : No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\queue(311,10): message : see declaration of 'std::priority_queue<int,std::vector<int,std::allocator<int>>,comp>::push'
